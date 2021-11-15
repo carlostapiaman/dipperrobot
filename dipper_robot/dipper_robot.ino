@@ -137,6 +137,35 @@ double getResolution()
   
 }
 
+double stepsToHeight(long steps)
+{
+  //converts input steps to its respective height in mm.
+  //This considering the phyisical model. Zero steps equals the maximum height.
+  double H_out;
+  H_out = H_max-kres*steps;
+  return H_out;
+}
+
+long heightToSteps(double H_in)
+{
+  //converts input height to its respective absolute number of steps. (some accuracy is lost here)
+  //This considering the phyisical model. Zero steps equals the maximum height.
+  double steps_out;
+  steps_out = (H_max-H_in)*(1/kres);
+  return steps_out;
+}
+
+
+long heightToStepsrel(double H_in)
+{
+  //converts distance input in mm to its steps equivalent. (some accuracy is lost here)
+  //This is regardless of the physical model. Only the motor output ratio is considered.
+  double steps_out;
+  steps_out = (H_in)*(1/kres);
+  return steps_out;
+}
+
+
 
 
 void setup() {
