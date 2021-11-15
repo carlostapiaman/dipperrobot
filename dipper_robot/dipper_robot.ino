@@ -172,6 +172,24 @@ double getCurrentPos()
   return H_ist;
 }
 
+void runToHeight(double H_soll)
+{
+  double H_ist = stepsToHeight(stepper.currentPosition()); //current height
+  double H_diff = H_ist - H_soll;  //height difference
+  long n_diff = heightToStepsrel(H_diff); //step difference
+  long n_soll = heightToSteps(H_soll); //target height in steps
+  if (  n_soll != stepper.currentPosition())
+        {
+            stepper.disableOutputs(); //Turns Motor on
+            stepper.runToNewPosition(n_soll);
+            stepper.enableOutputs(); //Motor is OFF
+            //stepper.setCurrentPosition(0);
+            H_ist = stepsToHeight(stepper.currentPosition());
+        }
+  delay(100); 
+}
+
+
 
 void setup() {
   // put your setup code here, to run once:
