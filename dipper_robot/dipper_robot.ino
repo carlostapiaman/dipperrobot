@@ -76,6 +76,16 @@ int motionAD[] = {50, 250, 500, 5000}; //ASCII 65
 int motionBT[5];                        //ASCII 83 This is the "free" program where the motion paramters are received externally (not implemented yet)
 
 
+// Defined some useful functions
+
+void serialFlush(){
+  // cleans up the serial buffer
+  while(Serial.available() > 0) {
+    char t = Serial.read();
+  }
+}  
+
+
 
 void setup() {
   // put your setup code here, to run once:
