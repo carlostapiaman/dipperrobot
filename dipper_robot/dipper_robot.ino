@@ -189,6 +189,32 @@ void runToHeight(double H_soll)
   delay(100); 
 }
 
+void setMotParameters(int parameters[]){
+    //Sets the motion parameters given by an array of int numbers
+      SPD_lin = parameters[0];
+      ACC_time = parameters[1];
+      startDelay = parameters[2];
+      dipTime = parameters[3];
+      //Umrechnungen
+      SPD_steps = SPD_lin/kres; // Speed in steps per second
+      ACC_steps = SPD_lin/(kres*ACC_time*0.001); // Acceleration in steps per second per second
+      stepper.setMaxSpeed(SPD_steps);     
+      stepper.setAcceleration(ACC_steps);
+}
+
+void setDefMotParameters(){
+    //Sets the motion parameters to the default
+      SPD_lin = SPD_lin_def;
+      ACC_time = ACC_time_def;
+      startDelay = startDelay_def;
+      dipTime = dipTime_def;
+      //Umrechnungen
+      SPD_steps = SPD_lin_def/kres; // Speed in steps per second
+      ACC_steps = SPD_lin_def/(kres*ACC_time_def*0.001); // Acceleration in steps per second per second
+
+      stepper.setMaxSpeed(SPD_steps);     
+      stepper.setAcceleration(ACC_steps);
+}
 
 
 void setup() {
