@@ -216,6 +216,45 @@ void setDefMotParameters(){
       stepper.setAcceleration(ACC_steps);
 }
 
+void exProgram(int _parameters[]){
+//receives program parameters and executes the selected dipping program
+  serialFlush();
+  setMotParameters(_parameters);
+  //Wait for desired height input
+        while (Serial.available()==0)
+        {
+          targetPos = Serial.parseInt();
+          if (targetPos != 0)
+          {
+            //check if input value lies within physical boundaries
+            if (targetPos <= H_max && targetPos >= H_min)
+            {            
+              //wait before beginning operation (time to see the motor)
+              delay(startDelay);
+              // Turn On LED to anounce operation start
+              digitalWrite(LED,HIGH);
+              //executes motion program towards target position
+              runToHeight(targetPos);
+              //waits in between movements
+              delay(dipTime);
+              //moves back to original position **(currently it goes to the set maximum)
+              runToHeight(H_max);
+              // Turn off LED to anounce end of operation
+              digitalWrite(LED,LOW);
+              break;
+            }
+            else
+            {
+              break;
+            }
+            //refillPool();
+          }
+        }
+        //wait
+        delay(500);        
+  
+}
+
 
 void setup() {
   // put your setup code here, to run once:
