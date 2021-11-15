@@ -128,6 +128,14 @@ void goHome()
 
 }
 
+double getResolution()
+{
+  //returns the linear motion output resolution in mm/step
+  double res;
+  res=kres;
+  return res;
+  
+}
 
 
 
