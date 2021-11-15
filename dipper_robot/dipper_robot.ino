@@ -26,6 +26,10 @@
 #define LED 9         // Operational LED 
 #define homeSwitch 13  // Reference Position signal (Before it was 3 but pin broke)
 
+
+// Define the stepper motor and the pins it will use
+AccelStepper stepper( AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
+
 void setup() {
   // put your setup code here, to run once:
 
