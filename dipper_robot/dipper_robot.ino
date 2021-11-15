@@ -19,6 +19,12 @@
 #include <AccelStepper.h>
 //https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html#a176c5d2e4c2f21e9e92b12e39a6f0e67
 
+//Arduino Pins are defined here
+#define DIR_PIN     7 // Stepper direction signal
+#define STEP_PIN    6  // Stepper steps signal
+#define ENABLE_PIN  8 // Stepper's Enable/disable signal (power on or off)
+#define LED 9         // Operational LED 
+#define homeSwitch 13  // Reference Position signal (Before it was 3 but pin broke)
 
 void setup() {
   // put your setup code here, to run once:
