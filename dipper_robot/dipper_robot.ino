@@ -281,30 +281,26 @@ void loop() {
     // read the oldest byte in the serial buffer:
     incomingByte = Serial.read();
 
-    // if it's a capital F (ASCII 70), start Clear Buffer:
-    if (incomingByte == 'F')
-    {
+    switch (incomingByte) {
+      case 'F':
+      // if its a capital F (ASCII 70), start Clear Buffer:
       Serial.println(String(getCurrentPos()));
       serialFlush();
-    }
+      break;
 
-    // if it's a capital G (ASCII 71), start Go Home:
-    if (incomingByte == 'G')
-    {
+      case 'G':
+      // if it's a capital G (ASCII 71), start Go Home:
       goHome();
       Serial.println(String(getCurrentPos()));
       serialFlush();
       delay(500);
-    }
-    
-    ///////////////////////////////////////////////////////////
-    // if it's a capital B (ASCII 66), start Go To motion program:
-    // Go To motion program moves to a selected position and stays there
-    if (incomingByte == 'B') 
-    {
-        serialFlush(); //clears the serial buffer
-        setDefMotParameters(); //Sets the default motion parameters
+      break;
 
+      case 'B':
+      // if it's a capital B (ASCII 66), start Go To motion program:
+      // Go To motion program moves to a selected position and stays there
+      serialFlush(); //clears the serial buffer
+      setDefMotParameters(); //Sets the default motion parameters
         //Wait for target height input in mm [00.00]
         while (Serial.available()==0)
         {
@@ -331,44 +327,33 @@ void loop() {
           }
         }
         //wait
-        delay(500);        
-    }
+        delay(500);
+      break;
 
+      case 'E':    
+      // if it's a capital E (ASCII 69), start ED motion program:
+      exProgram(motionED); //Executes the ED dipping program with the given target
+      break;
 
-    ///////////////////////////////////////////////////////////
-    // if it's a capital E (ASCII 69), start ED motion program:
-    if (incomingByte == 'E') 
-    {
-        exProgram(motionED); //Executes the ED dipping program with the given target
-    }
+      case 'C':    
+      // if it's a capital C (ASCII 67), start CB motion program:
+      exProgram(motionCB); //Executes the CB dipping program with the given target
+      break;
 
-    ///////////////////////////////////////////////////////////
-    // if it's a capital C (ASCII 67), start CB motion program:
-    if (incomingByte == 'C') 
-    {
-        exProgram(motionCB); //Executes the CB dipping program with the given target     
-    }
+      case 'L':    
+      // if it's a capital L (ASCII 76), start LB motion program:
+      exProgram(motionLB); //Executes the LB dipping program with the given target
+      break;
 
-    ///////////////////////////////////////////////////////////
-    // if it's a capital L (ASCII 76), start LB motion program:
-    if (incomingByte == 'L') 
-    {
-        exProgram(motionLB); //Executes the LB dipping program with the given target    
-    }
+      case 'K':    
+      // if it's a capital K (ASCII 75), start FKS motion program:
+      exProgram(motionFKS); //Executes the FKS dipping program with the given target
+      break;
 
-    ///////////////////////////////////////////////////////////
-    // if it's a capital K (ASCII 75), start FKS motion program:
-    if (incomingByte == 'K') 
-    {
-        exProgram(motionFKS); //Executes the FKS dipping program with the given target    
+      case 'A':    
+      // if it's a capital A (ASCII 65), start AD motion program:
+      exProgram(motionAD); //Executes the AD dipping program with the given target
+      break;
     }
-
-    ///////////////////////////////////////////////////////////
-    // if it's a capital A (ASCII 65), start AD motion program:
-    if (incomingByte == 'A') 
-    {
-        exProgram(motionAD); //Executes the AD dipping program with the given target    
-    }
-    
   }
 }
