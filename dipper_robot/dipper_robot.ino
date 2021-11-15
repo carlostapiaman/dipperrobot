@@ -85,6 +85,50 @@ void serialFlush(){
   }
 }  
 
+void goHome()
+{
+  //moves stepper to home position (the upper maximum limit) set by a switch
+  delay(5);  // Wait for EasyDriver wake up
+
+   //  Set Max Speed and Acceleration of each Steppers at startup for homing
+  stepper.setMaxSpeed(homingSPD);      // Set Max Speed of Stepper (Slower to get better accuracy)
+  stepper.setAcceleration(ACC_steps);  // Set Acceleration of Stepper
+
+  // Start Homing procedure of Stepper Motor at startup
+
+  //Serial.print("Stepper is Homing . . . . . . . . . . . ");
+  stepper.disableOutputs(); //motors ON 
+  while (digitalRead(homeSwitch)) 
+  {  // Make the Stepper move CCW until the switch is activated
+    //stepper.disableOutputs();   //Turns Motor ON
+    stepper.moveTo(initial_homing);  // Set the position to move to
+    initial_homing--;  // Decrease by 1 for next move if needed
+    stepper.run();  // Start moving the stepper
+    delay(1);
+  }
+  
+  stepper.setCurrentPosition(0);  // Set the current position as zero for now
+  stepper.setMaxSpeed(homingSPD);      // Set Max Speed of Stepper (Slower to get better accuracy)
+  stepper.setAcceleration(homingSPD);  // Set Acceleration of Stepper
+  initial_homing=1;
+  delay(50);
+
+  while (!digitalRead(homeSwitch)) { // Make the Stepper move CW until the switch is deactivated
+    stepper.moveTo(initial_homing);  
+    stepper.run();
+    initial_homing++;
+    delay(1);
+  }
+  stepper.enableOutputs(); //Motor is off
+  stepper.setCurrentPosition(0);
+  //Serial.println("Homing Completed");
+  //Serial.println("");
+  stepper.setMaxSpeed(SPD_steps);      // Set Max Speed of Stepper (Faster for regular movements)
+  stepper.setAcceleration(ACC_steps);  // Set Acceleration of Stepper
+
+}
+
+
 
 
 void setup() {
