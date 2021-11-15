@@ -274,6 +274,102 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+//this function runs eternally looping until turned off or reset
+  //It waits for a command (as an ASCII byte) from the external source (android)
+  // see if there's incoming serial data:
+  if (Serial.available() > 0)
+  {
+    // read the oldest byte in the serial buffer:
+    incomingByte = Serial.read();
 
+    // if it's a capital F (ASCII 70), start Clear Buffer:
+    if (incomingByte == 'F')
+    {
+      Serial.println(String(getCurrentPos()));
+      serialFlush();
+    }
+
+    // if it's a capital G (ASCII 71), start Go Home:
+    if (incomingByte == 'G')
+    {
+      goHome();
+      Serial.println(String(getCurrentPos()));
+      serialFlush();
+      delay(500);
+    }
+    
+    ///////////////////////////////////////////////////////////
+    // if it's a capital B (ASCII 66), start Go To motion program:
+    // Go To motion program moves to a selected position and stays there
+    if (incomingByte == 'B') 
+    {
+        serialFlush(); //clears the serial buffer
+        setDefMotParameters(); //Sets the default motion parameters
+
+        //Wait for target height input in mm [00.00]
+        while (Serial.available()==0)
+        {
+          targetPos = Serial.parseInt();
+          if (targetPos != 0)
+          {
+            //check if input value lies within physical boundaries
+            if (targetPos <= H_max && targetPos >= H_min)
+            {
+              //wait before beginning operation (time to see the motor)
+              delay(startDelay);
+              // Turn On LED to anounce operation start
+              digitalWrite(LED,HIGH);
+              //executes motion program towards target position
+              runToHeight(targetPos);
+              // Turn off LED to anounce end of operation
+              digitalWrite(LED,LOW);
+              break;
+            }
+            else
+            {
+              break;
+            }
+          }
+        }
+        //wait
+        delay(500);        
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // if it's a capital E (ASCII 69), start ED motion program:
+    if (incomingByte == 'E') 
+    {
+        exProgram(motionED); //Executes the ED dipping program with the given target
+    }
+
+    ///////////////////////////////////////////////////////////
+    // if it's a capital C (ASCII 67), start CB motion program:
+    if (incomingByte == 'C') 
+    {
+        exProgram(motionCB); //Executes the CB dipping program with the given target     
+    }
+
+    ///////////////////////////////////////////////////////////
+    // if it's a capital L (ASCII 76), start LB motion program:
+    if (incomingByte == 'L') 
+    {
+        exProgram(motionLB); //Executes the LB dipping program with the given target    
+    }
+
+    ///////////////////////////////////////////////////////////
+    // if it's a capital K (ASCII 75), start FKS motion program:
+    if (incomingByte == 'K') 
+    {
+        exProgram(motionFKS); //Executes the FKS dipping program with the given target    
+    }
+
+    ///////////////////////////////////////////////////////////
+    // if it's a capital A (ASCII 65), start AD motion program:
+    if (incomingByte == 'A') 
+    {
+        exProgram(motionAD); //Executes the AD dipping program with the given target    
+    }
+    
+  }
 }
