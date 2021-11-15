@@ -67,6 +67,13 @@ int ACC_steps;// = SPD_lin_def/(kres*ACC_time_def*0.001); // Acceleration in ste
 // target position in the operation
 double targetPos;
 
+//motion settings {SPD_lin [mm/s], ACC_time [ms], startDelay [ms], dipTime [ms]} Set program settings here
+int motionED[] = {30, 1000, 500, 10}; //ASCII 69
+int motionCB[] = {30, 1000, 500, 1000}; //ASCII 67
+int motionLB[] = {30, 1000, 500, 1000}; //ASCII 76
+int motionFKS[] = {100, 250, 500, 10}; //ASCII 75
+int motionAD[] = {50, 250, 500, 5000}; //ASCII 65
+int motionBT[5];                        //ASCII 83 This is the "free" program where the motion paramters are received externally (not implemented yet)
 
 
 
