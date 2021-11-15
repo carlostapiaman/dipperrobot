@@ -165,7 +165,12 @@ long heightToStepsrel(double H_in)
   return steps_out;
 }
 
-
+double getCurrentPos()
+{
+  //gets current position in mm
+  double H_ist = stepsToHeight(stepper.currentPosition());
+  return H_ist;
+}
 
 
 void setup() {
