@@ -73,7 +73,6 @@ int motionCB[] = {30, 1000, 500, 1000}; //ASCII 67
 int motionLB[] = {30, 1000, 500, 1000}; //ASCII 76
 int motionFKS[] = {100, 250, 500, 10}; //ASCII 75
 int motionAD[] = {50, 250, 500, 5000}; //ASCII 65
-int motionBT[5];                        //ASCII 83 This is the "free" program where the motion paramters are received externally (not implemented yet)
 
 
 // Defined some useful functions
