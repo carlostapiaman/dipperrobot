@@ -26,9 +26,17 @@
 #define LED 9         // Operational LED 
 #define homeSwitch 13  // Reference Position signal (Before it was 3 but pin broke)
 
-
-// Define the stepper motor and the pins it will use
+// Define the stepper motor and the pins it will use, and its setup
 AccelStepper stepper( AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
+double mode = 1; //the stepping mode {1, 2, 4, 8, 16, 32}
+#define MOTOR_FULL_STEPS 200
+#define MOTOR_STEPS MOTOR_FULL_STEPS*mode // Motor steps per revolution. Most steppers are 200 steps or 1.8 degrees/step
+
+// Define some communication variables
+int incomingByte;      // a variable to read incoming serial data into
+
+
+
 
 void setup() {
   // put your setup code here, to run once:
