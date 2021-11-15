@@ -257,8 +257,20 @@ void exProgram(int _parameters[]){
 
 
 void setup() {
-  // put your setup code here, to run once:
-
+  //This function runs once when turning on the arduino and sets up each used component
+  //It also prepares the motion by "going home" aka finding its reference point.
+  
+    Serial.begin(9600); // initialize serial communication (Bluetooth HC-05 for example):
+    setDefMotParameters(); //sets the motion parameters to the default ones
+    pinMode(LED, OUTPUT); //initializes the operational LED pin (turns on when an operation is running)
+    pinMode(homeSwitch, INPUT); //initializes the reference signal reading pin
+    stepper.setEnablePin(ENABLE_PIN); //initializes the motors "on/off" enable pin
+   
+    delay(500); // Moment to stop and see the motors
+    goHome(); //Starts slowly finding its reference point
+    Serial.println(String(getCurrentPos())); 
+    serialFlush();
+    delay(500);
 }
 
 void loop() {
